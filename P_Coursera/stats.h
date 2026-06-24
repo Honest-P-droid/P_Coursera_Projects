@@ -37,12 +37,12 @@ float find_mean(unsigned char *data, int len);
 @param data The pointer value, pointing to the array of unsigned char provided.
        len The length of the array.
 @return The largest value of the given dataset*/
-int find_maximum(unsigned char *data, int len);
+unsigned char find_maximum(unsigned char *data, int len);
 /*@brief Finds the smallest value in the given dataset.
  	 This function takes as input the given dataset and it's length and finds the smallest value in it by comparing each succeding value.
 @param data The pointer value, pointing to the array of unsigned char provided.
        len The length of the array.
 @return The smallest value in the given dataset*/
-int find_minimum(unsigned char *data, int len);
+unsigned char find_minimum(unsigned char *data, int len);
 
 #endif

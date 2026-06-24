@@ -67,7 +67,7 @@ void sort_array(unsigned char *data,int len){
 	for(int i=1; i<len; i++){
 		int key = data[i];
 		int j = i-1;
-	while(j>=0 && data[j]>key){
+	while(j>=0 && data[j]<key){
 		data[j+1] = data[j];
 		j--;
 	}

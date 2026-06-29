@@ -14,7 +14,7 @@ PLATFORM ?= HOST
 include sources.mk
 
 #Common Flags
-CFLAGS= -Wall -Werror -g
+CFLAGS= -Wall -Werror -g -O0 -std=c99
 CPPFLAGS= -D$(PLATFORM) $(INCLUDES)
 
 # Architecture Specific Flags

@@ -1,0 +1,1 @@
+This repository contains projects/assessments that I completed throughout my learning of Introduction to Embedded Systems Software and Development Environments by University of Boulder Colorado through Coursera.

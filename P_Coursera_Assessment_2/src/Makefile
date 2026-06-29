@@ -8,32 +8,22 @@
 # misuse of this material. 
 #
 #*****************************************************************************
-
-#------------------------------------------------------------------------------
-# <Put a Description Here>
-#
-# Use: make [TARGET] [PLATFORM-OVERRIDES]
-#
-# Build Targets:
-#      <Put a description of the supported targets here>
-#
-# Platform Overrides:
-#      <Put a description of the supported Overrides here
-#
-#------------------------------------------------------------------------------
+#Setting Default Platform as HOST
 PLATFORM ?= HOST
+
 include sources.mk
 
+#Common Flags
 CFLAGS= -Wall -Werror -g
 CPPFLAGS= -D$(PLATFORM) $(INCLUDES)
 
-# Architectures Specific Flags
+# Architecture Specific Flags
 LINKER_FILE = ../msp432p401r.lds
 CPU = cortex-m4
 ARCH = armv7e-m
 SPECS = nosys.specs
 
-# Platform Overrides 
+# Platform Selection
 ifeq ($(PLATFORM), HOST)
 CC = gcc
 LD = ld
@@ -58,36 +48,36 @@ OBJS = $(SOURCES:.c=.o)
 DEPS = $(SOURCES:.c=.d)
 TARGET = c1m2
 
-#C to Object
+#C to object (.c -> .o)
 %.o : %.c
 	$(CC) -c $(CFLAGS) $< $(CPPFLAGS) -MD -MP -o $@
 
-#C to preprocessed
+#C to preprocessed (.c -> .i)
 %.i : %.c
 	$(CC) -E $(CFLAGS) $< $(CPPFLAGS) -o $@
 
-#C to assembly
+#C to assembly (.c -> .asm)
 %.asm : %.c
 	$(CC) -S $(CFLAGS) $< $(CPPFLAGS) -o $@
 
+#Disassembler
 $(TARGET).asm : $(TARGET).out
 	$(OBJDUMP) -d $< > $@
 
-.PHONY : compile-all clean build debug
-
-debug :
-	@echo "SIZE = [$(SIZE)]"
-	@echo "TARGET = [$(TARGET)]"
+#Phony Targets (i.e, Targets that execute regardless of whether it exists or not)
+.PHONY : compile-all clean build
 
 compile-all : $(OBJS)
 
 build : $(TARGET).out
 	$(SIZE) $(TARGET).out
 
+#Map file target generation (Map file displays memory locations after linking)
 $(TARGET).out : $(OBJS)
 	$(CC) $(OBJS) $(CFLAGS) $(LDFLAGS) -o $@ -Wl,-Map=$(TARGET).map
 
-clean : 
+#Clean target generation (Removes preprocessed, assembly, dependency, map, and object files)
+clean :
 	rm -f *.o *.d *.i *.asm *.out *.map
 
 -include $(DEPS)
